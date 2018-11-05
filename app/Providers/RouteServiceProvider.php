@@ -39,6 +39,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        $this->mapSubDomainRoutes();
+
         $this->mapBotManCommands();
     }
 
@@ -62,8 +64,9 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+            ->namespace($this->namespace)
+            ->domain(env('APP_DOMAIN'))
+            ->group(base_path('routes/web.php'));
     }
 
     /**
@@ -79,5 +82,20 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
+    }
+
+    /**
+     * Define the "SubDomain" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    private function mapSubDomainRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->domain('{website}.'.env('APP_DOMAIN'))
+            ->group(base_path('routes/subdomain.php'));
     }
 }
