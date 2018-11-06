@@ -4,42 +4,65 @@ namespace Tests\Feature\Dashboard;
 
 use Tests\TestCase;
 use InitSoftBot\{App, User};
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class CreateAppTest extends TestCase
+class UpdateAppTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    function user_can_create_an_app()
+    function user_can_update_your_apps()
     {
         $cristian = factory(User::class)->create();
 
+        $app = factory(App::class)->create(['user_id' => $cristian->id]);
+
         $response = $this->actingAs($cristian)
-            ->postJson(route('dashboard.apps.store'), [
+            ->putJson(route('dashboard.apps.update', $app), [
                 'name' => 'Mi first Botman app'
             ]);
 
-        $response->assertStatus(201);
+        $response->assertStatus(200);
         $response->assertJson(['data' => [
             'name' => 'Mi First Botman App',
             'slug' => 'mi-first-botman-app'
         ]]);
 
         $this->assertDatabaseHas('apps', [
-           'name' =>  "mi first botman app"
+            'name' =>  "mi first botman app"
+        ]);
+    }
+
+    /** @test */
+    function user_cannot_update_other_apps_that_are_not_yours()
+    {
+        $cristian = factory(User::class)->create();
+
+        $app = factory(App::class)->create();
+
+        $response = $this->withExceptionHandling()->actingAs($cristian)
+            ->putJson(route('dashboard.apps.update', $app), [
+                'name' => 'Mi first Botman app'
+            ]);
+
+        $response->assertStatus(403);
+
+        $this->assertDatabaseMissing('apps', [
+            'name' =>  "mi first botman app"
         ]);
     }
 
     /** @test */
     function app_name_must_be_unique()
     {
-       $cristian = factory(User::class)->create();
+        $cristian = factory(User::class)->create();
 
-       factory(App::class)->create(['name' => 'Mi first Botman app']);
+        factory(App::class)->create(['name' => 'Mi first Botman app']);
+        $app = factory(App::class)->create(['user_id' => $cristian->id]);
 
         $response = $this->handleValidationExceptions()->actingAs($cristian)
-            ->postJson(route('dashboard.apps.store'), [
+            ->putJson(route('dashboard.apps.update', $app), [
                 'name' => 'Mi first Botman app'
             ]);
 
@@ -57,8 +80,10 @@ class CreateAppTest extends TestCase
     {
         $cristian = factory(User::class)->create();
 
+        $app = factory(App::class)->create(['user_id' => $cristian->id]);
+
         $response = $this->handleValidationExceptions()->actingAs($cristian)
-            ->postJson(route('dashboard.apps.store'), []);
+            ->putJson(route('dashboard.apps.update', $app), []);
 
         $response->assertStatus(422);
         $response->assertJson([
@@ -74,8 +99,10 @@ class CreateAppTest extends TestCase
     {
         $cristian = factory(User::class)->create();
 
+        $app = factory(App::class)->create(['user_id' => $cristian->id]);
+
         $response = $this->handleValidationExceptions()->actingAs($cristian)
-            ->postJson(route('dashboard.apps.store'), [
+            ->putJson(route('dashboard.apps.update', $app), [
                 'name' => 'app'
             ]);
 
@@ -93,8 +120,10 @@ class CreateAppTest extends TestCase
     {
         $cristian = factory(User::class)->create();
 
+        $app = factory(App::class)->create(['user_id' => $cristian->id]);
+
         $response = $this->handleValidationExceptions()->actingAs($cristian)
-            ->postJson(route('dashboard.apps.store'), [
+            ->putJson(route('dashboard.apps.update', $app), [
                 'name' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porta lacus amet.'
             ]);
 

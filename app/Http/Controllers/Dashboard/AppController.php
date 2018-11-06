@@ -3,9 +3,8 @@
 namespace InitSoftBot\Http\Controllers\Dashboard;
 
 use InitSoftBot\App;
-use Illuminate\Http\Request;
 use InitSoftBot\Http\Controllers\Controller;
-use InitSoftBot\Http\Requests\Dashboard\StoreAppRequest;
+use InitSoftBot\Http\Requests\Dashboard\{StoreAppRequest, UpdateAppRequest};
 
 class AppController extends Controller
 {
@@ -49,38 +48,19 @@ class AppController extends Controller
         return response()->json(['data' => $request->createApp()], 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \InitSoftBot\App  $app
-     * @return \Illuminate\Http\Response
-     */
-    public function show(App $app)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \InitSoftBot\App  $app
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(App $app)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \InitSoftBot\App  $app
+     * @param \InitSoftBot\Http\Requests\Dashboard\UpdateAppRequest $request
+     * @param  \InitSoftBot\App $app
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, App $app)
+    public function update(UpdateAppRequest $request, App $app)
     {
-        //
+        abort_unless(auth()->id() == $app->user_id, 403);
+
+        return response()->json(['data' => $request->updateApp($app)], 200);
     }
 
     /**

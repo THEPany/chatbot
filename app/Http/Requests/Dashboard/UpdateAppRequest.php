@@ -2,10 +2,11 @@
 
 namespace InitSoftBot\Http\Requests\Dashboard;
 
+use InitSoftBot\App;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAppRequest extends FormRequest
+class UpdateAppRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,15 +30,17 @@ class StoreAppRequest extends FormRequest
                 'required',
                 'min:6',
                 'max:80',
-                Rule::unique('apps', $this->name)
+                Rule::unique('apps', $this->name)->ignore($this->app->id)
             ]
         ];
     }
 
-    public function createApp()
+    public function updateApp(App $app)
     {
-        return auth()->user()->apps()->create([
+        $app->update([
             'name' => $this->name
         ]);
+
+        return $app;
     }
 }
