@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\BotMan;
+namespace InitSoftBot\Providers\BotMan;
 
 use BotMan\BotMan\Drivers\DriverManager;
 use BotMan\Studio\Providers\DriverServiceProvider as ServiceProvider;

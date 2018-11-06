@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace InitSoftBot\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -14,7 +14,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'App\Http\Controllers';
+    protected $namespace = 'InitSoftBot\Http\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -95,7 +95,6 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware('web')
             ->namespace($this->namespace)
-            ->domain('{website}.'.env('APP_DOMAIN'))
             ->group(base_path('routes/subdomain.php'));
     }
 }

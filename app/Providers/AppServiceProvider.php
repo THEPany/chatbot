@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace InitSoftBot\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

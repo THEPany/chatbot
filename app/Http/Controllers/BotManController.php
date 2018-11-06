@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace InitSoftBot\Http\Controllers;
 
 use BotMan\BotMan\BotMan;
-use App\Conversations\ExampleConversation;
+use InitSoftBot\Conversations\ExampleConversation;
 
 class BotManController extends Controller
 {

@@ -154,12 +154,12 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-        App\Providers\BotMan\DriverServiceProvider::class,
+        InitSoftBot\Providers\AppServiceProvider::class,
+        InitSoftBot\Providers\AuthServiceProvider::class,
+        // InitSoftBot\Providers\BroadcastServiceProvider::class,
+        InitSoftBot\Providers\EventServiceProvider::class,
+        InitSoftBot\Providers\RouteServiceProvider::class,
+        InitSoftBot\Providers\BotMan\DriverServiceProvider::class,
     ],
 
     /*

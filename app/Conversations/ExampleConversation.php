@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Conversations;
+namespace InitSoftBot\Conversations;
 
 use Illuminate\Foundation\Inspiring;
 use BotMan\BotMan\Messages\Incoming\Answer;
